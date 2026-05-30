@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block body %}
+<div class="home" data-screen-label="01 Главная">
+  <section class="login-hero">
+    <div class="room-frame">
+      <img class="room-img" src="{% static 'assets/tv-room.png' %}" alt="" />
+
+      <div class="login-screen-overlay">
+        <div class="crt-tag">СИГНАЛ ПРИНЯТ · CH 07</div>
+        <h1 class="crt-title">UNISON</h1>
+        <div class="crt-sub">
+          <span class="led"></span>
+          <span>домашнее радио</span>
+        </div>
+        <div class="tv-menu">
+          {% if user.is_authenticated %}
+            <a class="tv-menu-item primary" href="{% url 'music:app' %}">
+              <span class="bullet">▸</span> В эфир
+            </a>
+            <a class="tv-menu-item" href="{% url 'accounts:logout' %}"
+               onclick="event.preventDefault(); document.getElementById('lo').submit();">
+              <span class="bullet">▸</span> Выйти
+            </a>
+            <form id="lo" method="post" action="{% url 'accounts:logout' %}" style="display:none">{% csrf_token %}</form>
+          {% else %}
+            <a class="tv-menu-item primary" href="{% url 'accounts:login' %}">
+              <span class="bullet">▸</span> Вход
+            </a>
+            <a class="tv-menu-item" href="{% url 'accounts:signup' %}">
+              <span class="bullet">▸</span> Регистрация
+            </a>
+          {% endif %}
+        </div>
+        <div class="crt-foot">v 0.7 · бета · MinIO · без подписок</div>
+      </div>
+    </div>
+    <div class="scene-vignette"></div>
+
+    <div class="login-wordmark">
+      <span>UNISON</span>
+      <span class="dot"></span>
+      <span class="tag">музыка без подписок · с 2026</span>
+    </div>
+
+    <a class="scroll-hint" href="{% url 'music:about' %}">
+      <span>о проекте</span>
+      <span class="arrow">→</span>
+    </a>
+  </section>
+</div>
+{% endblock %}

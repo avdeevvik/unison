@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Эфир · Унисон{% endblock %}
+
+{% block body %}
+<div id="root"></div>
+
+<script>
+window.UNISON_USER = {
+  id: {{ request.user.id }},
+  name: "{{ request.user.username|escapejs }}",
+  email: "{{ request.user.email|escapejs }}"
+};
+window.UNISON_URLS = {
+  bootstrap: "{% url 'api:bootstrap' %}",
+  tracks: "{% url 'api:tracks' %}",
+  upload: "{% url 'api:upload' %}",
+  playlists: "{% url 'api:playlists' %}",
+  logout: "{% url 'accounts:logout' %}",
+  home: "{% url 'music:home' %}"
+};
+window.UNISON_CSRF = "{{ csrf_token }}";
+window.UNISON_DEFAULTS = {
+  accent: "magenta",
+  visualizerStyle: "bars",
+  crtEffect: true,
+  grainEffect: true,
+  screenTint: "cream"
+};
+</script>
+{% endblock %}
+
+{% block scripts %}
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" crossorigin="anonymous"></script>
+
+<script type="text/babel" src="{% static 'js/tweaks-panel.jsx' %}?v={{ build_id }}"></script>
+<script type="text/babel" src="{% static 'js/audio.jsx' %}?v={{ build_id }}"></script>
+<script type="text/babel" src="{% static 'js/screens.jsx' %}?v={{ build_id }}"></script>
+<script type="text/babel" src="{% static 'js/app.jsx' %}?v={{ build_id }}"></script>
+{% endblock %}

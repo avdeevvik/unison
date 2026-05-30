@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Вход · Унисон{% endblock %}
+
+{% block body %}
+<div class="login">
+  <section class="login-hero">
+    <div class="room-frame">
+      <img class="room-img" src="{% static 'assets/tv-room.png' %}" alt="" />
+
+      <div class="login-screen-overlay">
+        <form class="tv-form" method="post">
+          {% csrf_token %}
+          <div class="tv-form-head">
+            <a class="back" href="{% url 'music:home' %}">◂ назад</a>
+            <h2>Вход</h2>
+            <span></span>
+          </div>
+
+          {% if form.non_field_errors %}
+            <div style="color:#b30000;font-size:11px;text-align:center">
+              {{ form.non_field_errors|join:" / " }}
+            </div>
+          {% endif %}
+
+          <label class="tv-field">
+            <span>логин</span>
+            <input type="text" name="username" value="{{ form.username.value|default:'' }}"
+                   placeholder="username" autocomplete="username" required />
+          </label>
+          <label class="tv-field">
+            <span>пароль</span>
+            <input type="password" name="password" placeholder="••••••••"
+                   autocomplete="current-password" required />
+          </label>
+          <button class="tv-submit" type="submit">ВОЙТИ →</button>
+          <div style="text-align:center;margin-top:6px;font-size:11px;color:#4a2c1b">
+            нет аккаунта?
+            <a href="{% url 'accounts:signup' %}" style="color:var(--accent)">регистрация</a>
+          </div>
+        </form>
+      </div>
+    </div>
+    <div class="scene-vignette"></div>
+    <div class="login-wordmark">
+      <span>UNISON</span><span class="dot"></span>
+      <span class="tag">музыка без подписок · с 2026</span>
+    </div>
+  </section>
+</div>
+{% endblock %}
